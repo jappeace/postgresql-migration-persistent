@@ -1,7 +1,5 @@
-# I used chatgpt to generate this template and then just
-# modified to how I normally use these things.
 {
-  description = "My Haskell project";
+  description = "postgresql-migration <> persistent";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
@@ -16,15 +14,15 @@
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
       hpkgs = pkgs.haskellPackages.override {
         overrides = hnew: hold: {
-          template-project = hnew.callCabal2nix "template-project" ./. { };
+          postgresql-migration-persistent = hnew.callCabal2nix "postgresql-migration-persistent" ./. { };
         };
       };
     in
     {
-      defaultPackage.x86_64-linux =  hpkgs.template-project;
+      defaultPackage.x86_64-linux =  hpkgs.postgresql-migration-persistent;
       inherit pkgs;
       devShell.x86_64-linux = hpkgs.shellFor {
-        packages = ps : [ ps."template-project" ];
+        packages = ps : [ ps."postgresql-migration-persistent" ];
         withHoogle = false;
 
         buildInputs = [

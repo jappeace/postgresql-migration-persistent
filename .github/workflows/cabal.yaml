@@ -9,7 +9,8 @@ jobs:
       matrix:
         ghc: # should mirror current stable releases: https://www.haskell.org/ghc/download.html
           - '9.6'
-        os: [ubuntu-latest, macOS-latest, windows-latest]
+          - '9.8'
+        os: [ubuntu-latest]
         cabal: ['latest']
 
     steps:

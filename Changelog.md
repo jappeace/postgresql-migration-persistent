@@ -1,4 +1,8 @@
-# Change log for template project
+# Change log for postgresql-migration-persistent project
+
+## Version 1.0.0
+import the code
+
 
 ## Version 0.0.0 
 

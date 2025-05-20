@@ -1,15 +1,21 @@
 cabal-version:      3.0
 
-name:           template
+name:           postgresql-migration-persistent
 version:        1.0.0
-homepage:       https://github.com/jappeace/template#readme
-bug-reports:    https://github.com/jappeace/template/issues
-author:         Jappie Klooster
+homepage:       https://github.com/jappeace/postgresql-migration-persistent#readme
+bug-reports:    https://github.com/jappeace/postgresql-migration-persistent/issues
+author:         Jappie Klooster, Jean-Paul Calderone 
 maintainer:     hi@jappie.me
-copyright:      2020 Jappie Klooster
+synopsis:       A PostgreSQL persistent schema migration utility
+description:    Wraps postgresql migration and persistent to make sure the persistent schema
+                aligns with what's in the database.
+                If not, it returns a list of suggested manual migrations
+                to be put in postgresql-migration.
+copyright:      2025 Jappie Klooster
 license:        MIT
 license-file:   LICENSE
 build-type:     Simple
+category:       Database
 extra-source-files:
     Readme.md
     LICENSE
@@ -18,7 +24,7 @@ extra-doc-files:
 
 source-repository head
   type: git
-  location: https://github.com/jappeace/template
+  location: https://github.com/jappeace/postgresql-migration-persistent
 
 common common-options
   default-extensions: 
@@ -45,48 +51,29 @@ common common-options
       ImportQualifiedPost
 
   ghc-options:
-    -O2 -Wall -Werror -Wincomplete-uni-patterns
+    -Wall -Wincomplete-uni-patterns
     -Wincomplete-record-updates -Widentities -Wredundant-constraints
     -Wcpp-undef -fwarn-tabs -Wpartial-fields
     -fdefer-diagnostics -Wunused-packages
     -fenable-th-splice-warnings
     -fno-omit-yields
-    -threaded -rtsopts "-with-rtsopts=-N -M7G -T -Iw10"
+    -threaded 
 
   build-depends:
-      base >=4.9.1.0 && <4.21.0
+      base >=4.9.1.0 && <5
+    , postgresql-migration < 0.3
+    , persistent-postgresql < 3
+    , persistent < 3
+    , postgresql-simple < 1
+    , text < 3
+    , resource-pool < 0.5
+    , mtl < 3
 
   default-language: Haskell2010
 
 library
   import: common-options
   exposed-modules:
-      Template
-  other-modules:
-      Paths_template
+      PostgreSQL.Migration.Persistent
   hs-source-dirs:
       src
-
-executable exe
-  import: common-options
-  main-is: Main.hs
-  hs-source-dirs:
-      app
-  build-depends:
-      template
-  ghc-options: -Wno-unused-packages
-
-test-suite unit
-  import: common-options
-  type: exitcode-stdio-1.0
-  main-is: Test.hs
-  ghc-options: -Wno-unused-packages
-  other-modules:
-      Paths_template
-  hs-source-dirs:
-      test
-  build-depends:
-      tasty,
-      tasty-hunit,
-      tasty-quickcheck,
-      template
