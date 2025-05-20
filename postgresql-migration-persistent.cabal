@@ -6,10 +6,16 @@ homepage:       https://github.com/jappeace/postgresql-migration-persistent#read
 bug-reports:    https://github.com/jappeace/postgresql-migration-persistent/issues
 author:         Jappie Klooster, Jean-Paul Calderone 
 maintainer:     hi@jappie.me
+synopsis:       A PostgreSQL persistent schema migration utility
+description:    Wraps postgresql migration and persistent to make sure the persistent schema
+                aligns with what's in the database.
+                If not, it returns a list of suggested manual migrations
+                to be put in postgresql-migration.
 copyright:      2025 Jappie Klooster
 license:        MIT
 license-file:   LICENSE
 build-type:     Simple
+category:       Database
 extra-source-files:
     Readme.md
     LICENSE
@@ -45,16 +51,16 @@ common common-options
       ImportQualifiedPost
 
   ghc-options:
-    -O2 -Wall -Werror -Wincomplete-uni-patterns
+    -Wall -Wincomplete-uni-patterns
     -Wincomplete-record-updates -Widentities -Wredundant-constraints
     -Wcpp-undef -fwarn-tabs -Wpartial-fields
     -fdefer-diagnostics -Wunused-packages
     -fenable-th-splice-warnings
     -fno-omit-yields
-    -threaded -rtsopts "-with-rtsopts=-N -M7G -T -Iw10"
+    -threaded 
 
   build-depends:
-      base >=4.9.1.0 && <4.21.0
+      base >=4.9.1.0 && <5
     , postgresql-migration < 0.3
     , persistent-postgresql < 3
     , persistent < 3
