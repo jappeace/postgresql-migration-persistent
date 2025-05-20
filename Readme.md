@@ -14,6 +14,7 @@ for the common use case of:
 
 It could for example look something like this with katip logging:
 ```haskell
+import PostgreSQL.Migration.Persistent
 import Database.Schema.User()
 import Database.Schema.Company()
 
