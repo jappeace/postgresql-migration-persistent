@@ -4,7 +4,7 @@
 > \- first rule of programist bible.
 
 
-This library combines `postgresql-migration` and `persistent`,
+This library combines [`postgresql-migration`](https://hackage.haskell.org/package/postgresql-migration) and [`persistent`](https://hackage.haskell.org/package/persistent),
 for the common use case of:
 1. Run my manually defined migrations.
 2. Check if the schema defined in persistent aligns with the database.
