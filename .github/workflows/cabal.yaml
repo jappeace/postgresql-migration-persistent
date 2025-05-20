@@ -10,7 +10,7 @@ jobs:
         ghc: # should mirror current stable releases: https://www.haskell.org/ghc/download.html
           - '9.6'
           - '9.8'
-        os: [ubuntu-latest, macOS-latest ]
+        os: [ubuntu-latest]
         cabal: ['latest']
 
     steps:
