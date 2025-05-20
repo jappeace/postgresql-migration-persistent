@@ -14,6 +14,8 @@ module PostgreSQL.Migration.Persistent
   )
 where
 
+import qualified Data.Text.Encoding as Text
+import qualified Data.Text as Text
 import Control.Monad.IO.Class (liftIO)
 import Control.Monad.Reader (ReaderT (..), asks)
 import Data.Pool (Pool)
@@ -32,7 +34,7 @@ defaultOptions ::
   -- | the logging options, for example
   --
   -- @
-  --    (\case
+  --    (\\case
   --       Left errmsg -> runInIO $ $logTM AlertS $ logStr errmsg
   --       Right infoMsg -> runInIO $ $logTM InfoS $ logStr infoMsg)
   -- @
@@ -47,8 +49,7 @@ defaultOptions filepath logMsgs =
             -- NB we do the transaction around the entire thing
             Migration.optTransactionControl = Migration.NoNewTransaction
           },
-      pmoMigrationSource = Migration.MigrationDirectory filepath,
-      pmoSchemaMigrationTableName = "schema_migrations"
+      pmoMigrationSource = Migration.MigrationDirectory filepath
     }
 
 -- | The result of the postgresql-migration operation.
@@ -62,10 +63,15 @@ data PMMigrationResult
     MigrationNotBackedByPg
   deriving stock (Show, Eq)
 
+-- | Usually created with 'defaultOptions'
 data PersistentMigrationOptions = PersistentMigrationOptions
   { pmoMigrationOptions :: Migration.MigrationOptions,
-    pmoMigrationSource :: Migration.MigrationCommand,
-    pmoSchemaMigrationTableName :: String
+    -- | by default this is set to load a folder with 'Migration.MigrationDirectory'.
+    --   but certain poeple had trouble with that as it includes all files.
+    --   so with this option you can make your own directory parsing
+    --   and just put the command(s) in here.
+    --   note 'Migration.MigrationCommands'.
+    pmoMigrationSource :: Migration.MigrationCommand
   }
 
 -- | Run the given migrations in a single transaction.  If the migration fails
@@ -73,9 +79,14 @@ data PersistentMigrationOptions = PersistentMigrationOptions
 runMigrations ::
   -- | eg 'defaultOptions'
   PersistentMigrationOptions ->
-  -- | the Automatic migration. eg 'migrateAll', or migrateModels $(discoverEntities). note this is
+  -- | the Automatic migration. usually made with 'Database.Persist.TH.migrateModels' and 'Database.Persist.TH.discoverEntities' (as splice).
+  --
+  -- @
+  --    migrateAll :: Migration
+  --    migrateAll = migrateModels $(discoverEntities)
+  -- @
   Migration ->
-  -- | sql pool, created with for example 'withPostgresqlPool'.
+  -- | sql pool, created with for example 'Database.Persist.Postgresql.withPostgresqlPool'.
   Pool SqlBackend ->
   IO PMMigrationResult
 runMigrations config migrateAll pool =
@@ -94,7 +105,7 @@ runMigrations config migrateAll pool =
 
 runMigrationCommands :: PersistentMigrationOptions -> Connection -> ReaderT SqlBackend IO (Migration.MigrationResult String)
 runMigrationCommands options conn = do
-  initialized <- liftIO $ Migration.existsTable conn $ pmoSchemaMigrationTableName options
+  initialized <- liftIO $ Migration.existsTable conn $ Text.unpack $ Text.decodeUtf8 $ Migration.optTableName $ pmoMigrationOptions options
   let migrations =
         if initialized
           then [pmoMigrationSource options]
