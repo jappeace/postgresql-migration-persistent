@@ -4,9 +4,9 @@ name:           postgresql-migration-persistent
 version:        1.0.0
 homepage:       https://github.com/jappeace/postgresql-migration-persistent#readme
 bug-reports:    https://github.com/jappeace/postgresql-migration-persistent/issues
-author:         Jappie Klooster
+author:         Jappie Klooster, Jean-Paul Calderone 
 maintainer:     hi@jappie.me
-copyright:      2020 Jappie Klooster
+copyright:      2025 Jappie Klooster
 license:        MIT
 license-file:   LICENSE
 build-type:     Simple
