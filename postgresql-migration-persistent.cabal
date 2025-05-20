@@ -1,9 +1,9 @@
 cabal-version:      3.0
 
-name:           template
+name:           postgresql-migration-persistent
 version:        1.0.0
-homepage:       https://github.com/jappeace/template#readme
-bug-reports:    https://github.com/jappeace/template/issues
+homepage:       https://github.com/jappeace/postgresql-migration-persistent#readme
+bug-reports:    https://github.com/jappeace/postgresql-migration-persistent/issues
 author:         Jappie Klooster
 maintainer:     hi@jappie.me
 copyright:      2020 Jappie Klooster
@@ -18,7 +18,7 @@ extra-doc-files:
 
 source-repository head
   type: git
-  location: https://github.com/jappeace/template
+  location: https://github.com/jappeace/postgresql-migration-persistent
 
 common common-options
   default-extensions: 
@@ -61,32 +61,8 @@ common common-options
 library
   import: common-options
   exposed-modules:
-      Template
+      Postgresql-migration-persistent
   other-modules:
-      Paths_template
+      Paths_postgresql-migration-persistent
   hs-source-dirs:
       src
-
-executable exe
-  import: common-options
-  main-is: Main.hs
-  hs-source-dirs:
-      app
-  build-depends:
-      template
-  ghc-options: -Wno-unused-packages
-
-test-suite unit
-  import: common-options
-  type: exitcode-stdio-1.0
-  main-is: Test.hs
-  ghc-options: -Wno-unused-packages
-  other-modules:
-      Paths_template
-  hs-source-dirs:
-      test
-  build-depends:
-      tasty,
-      tasty-hunit,
-      tasty-quickcheck,
-      template

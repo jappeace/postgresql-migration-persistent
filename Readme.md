@@ -28,35 +28,6 @@ Comes with:
 
 ## Usage
 
-### Modifying for your project
-Assuming the name of your new project is `new-project`.
-
-```
-git clone git@github.com:jappeace/haskell-template-project.git new-project
-cd new-project
-```
-
-+ [ ] Edit template.cabal,
-    + [ ] find and replace template with `new-project`
-    + [ ] Update copyright
-    + [ ] Update github
-+ [ ] rename template.cabal to new-project.cabal
-+ [ ] Edit Changelog.md
-  + [ ] replace template with `new-project`
-  + [ ] Also describe your version 1.0.0 release.
-+ [ ] Edit flake.nix, replace template with `new-project`.
-+ [ ] Edit copyright in LICENSE
-+ [ ] For automatic bound bumping: In “Settings” → “Actions” → “General” → “Workflow permissions” tick “Allow GitHub Actions to create and approve pull requests”
-
-#### Reconfigure remotes
-```
-git remote add template git@github.com:jappeace/haskell-template-project.git
-git remote set-url origin git@github.com:YOUR-ORG-OR-USER-NAME/new-project.git
-```
-
-We can get template updates like this if we want to by doing `git pull template`.
-There will be a large amount of conflicts, but the merge commit should solve them permanently.
-
 #### Readme
 
 + [ ] Select desired badges. 
