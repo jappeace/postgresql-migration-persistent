@@ -61,8 +61,6 @@ common common-options
 library
   import: common-options
   exposed-modules:
-      Postgresql-migration-persistent
-  other-modules:
-      Paths_postgresql-migration-persistent
+      PostgreSQL.Migration.Persistent
   hs-source-dirs:
       src
