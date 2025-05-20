@@ -19,7 +19,7 @@
       };
     in
     {
-      defaultPackage.x86_64-linux =  hpkgs.template-project;
+      defaultPackage.x86_64-linux =  hpkgs.postgresql-migration-persistent;
       inherit pkgs;
       devShell.x86_64-linux = hpkgs.shellFor {
         packages = ps : [ ps."postgresql-migration-persistent" ];
